@@ -7,10 +7,8 @@ import { prisma } from "../config/prismaConfig.js";
 export const createUser = asyncHandler(async (req, res) => {
   
 
-  let { name, email, image, buyProperty, favPropertyID} = req.body;
-
-  console.log("creating a user");
-
+  const { name, email, image, buyProperty, favPropertyID } = req.body.data;
+  console.log(req.body.data);
   try {
     const user = await prisma.user.create({
       data: {
@@ -18,18 +16,28 @@ export const createUser = asyncHandler(async (req, res) => {
         email,
         image,
         buyProperty,
-        favPropertyID
-        
+        favPropertyID,
       },
     });
 
-    res.send({ message: "User created successfully", user });
+    return res.status(201).json({
+      message: "User registered successfully",
+      user,
+    });
+    
   } catch (err) {
-    
-      throw new Error(err.message);
-    
+     // Basic input validation
+    if (!name || !email) {
+    return res.status(400).json({ message: "Name and email are required" });
+   }else{
+    console.error("Error creating user:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+   }
   }
 });
+
+
+
 
 // function to buy a property
 export const buyProperty = asyncHandler(async (req, res) => {
