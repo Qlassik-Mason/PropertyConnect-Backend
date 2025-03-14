@@ -13,8 +13,7 @@ model User {
   email            String       @unique
   image            String?
   buyProperty     Json
-  favPropertyID Json         
- 
+        
 }
 
 model Property {

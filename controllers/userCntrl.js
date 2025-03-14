@@ -7,7 +7,7 @@ import { prisma } from "../config/prismaConfig.js";
 export const createUser = asyncHandler(async (req, res) => {
   
 
-  const { name, email, image, buyProperty, favPropertyID } = req.body.data;
+  const { name, email, image, buyProperty} = req.body.data;
   console.log(req.body.data);
   try {
     const user = await prisma.user.create({
@@ -16,7 +16,7 @@ export const createUser = asyncHandler(async (req, res) => {
         email,
         image,
         buyProperty,
-        favPropertyID,
+
       },
     });
 
@@ -112,53 +112,4 @@ export const cancelProperty = asyncHandler(async (req, res) => {
   }
 });
 
-// function to add a property in favourite list of a user
-export const toFav = asyncHandler(async (req, res) => {
-  const { email } = req.body;
-  const { rid } = req.params;
 
-  try {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (user.favPropertyID.includes(rid)) {
-      const updateUser = await prisma.user.update({
-        where: { email },
-        data: {
-          favPropertyID: {
-            set: user.favPropertyID.filter((id) => id !== rid),
-          },
-        },
-      });
-
-      res.send({ message: "Removed from favorites", user: updateUser });
-    } else {
-      const updateUser = await prisma.user.update({
-        where: { email },
-        data: {
-          favPropertyID: {
-            push: rid,
-          },
-        },
-      });
-      res.send({ message: "Updated favorites", user: updateUser });
-    }
-  } catch (err) {
-    throw new Error(err.message);
-  }
-});
-
-// function to get all favorites
-export const getAllFavorites = asyncHandler(async (req, res) => {
-  const { email } = req.body;
-  try {
-    const favResd = await prisma.user.findUnique({
-      where: { email },
-      select: { favPropertyID: true },
-    });
-    res.status(200).send(favResd);
-  } catch (err) {
-    throw new Error(err.message);
-  }
-});
