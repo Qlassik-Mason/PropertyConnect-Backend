@@ -6,7 +6,7 @@ async function testpropertyconnectApp() {
 
   try {
     //  Open the website
-    await driver.get("https://your-real-estate-app.com");
+    await driver.get("https:localhost:8000");
 
     //User Login
     console.log("Testing Login...");
