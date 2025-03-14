@@ -10,8 +10,8 @@ async function testpropertyconnectApp() {
 
     //User Login
     console.log("Testing Login...");
-    await driver.findElement(By.name("email")).sendKeys("testuser@example.com");
-    await driver.findElement(By.name("password")).sendKeys("testpassword", Key.RETURN);
+    await driver.findElement(By.name("email")).sendKeys("");
+    await driver.findElement(By.name("password")).sendKeys("", Key.RETURN);
     await driver.wait(until.urlContains("dashboard"), 5000); // Wait for dashboard to load
     console.log("Login successful!");
 
@@ -23,7 +23,7 @@ async function testpropertyconnectApp() {
 
     // Add Property
     console.log("Testing Add Property...");
-    await driver.get("https://your-real-estate-app.com/add-property");
+    await driver.get("https://localhost:8000/create");
     await driver.findElement(By.name("title")).sendKeys("Luxury Apartment");
     await driver.findElement(By.name("price")).sendKeys("2500");
     await driver.findElement(By.name("location")).sendKeys("123 Main Street, New York");
