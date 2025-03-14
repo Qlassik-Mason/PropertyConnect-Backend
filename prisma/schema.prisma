@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int          @id @default(autoincrement()) // MySQL uses auto-incremented integers
+  name             String?
+  email            String       @unique
+  image            String?
+  buyProperty     Json
+  favPropertyID Json         // Store as JSON instead of ObjectId array
+ 
+}
+
+model Property {
+  id          Int      @id @default(autoincrement()) // MySQL uses auto-incremented integers
+  title       String
+  description String
+  price       Int
+  address     String
+  city        String 
+  country     String
+  image       String
+  property_type String 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+}
