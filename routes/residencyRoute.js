@@ -4,7 +4,7 @@ import jwtCheck from "../config/auth0Config.js";
 const router = express.Router();
 
 router.post("/create",  createProperty)
-router.get("/allresd", getAllProperties)
+router.get("/allproperty", getAllProperties)
 router.get("/:id", getProperty)
 router.get("/city", getPropertyByCity)
 router.get("/price", getPropertyBYPrice)

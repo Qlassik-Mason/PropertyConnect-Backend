@@ -18,7 +18,7 @@ export const createUser = asyncHandler(async (req, res) => {
         email,
         image,
         buyProperty,
-        favPropertyID,
+        favPropertyID
         
       },
     });
