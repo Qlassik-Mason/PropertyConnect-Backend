@@ -51,19 +51,26 @@ export const getAllProperties = asyncHandler(async (req, res) => {
   res.send(properties);
 });
 
-// function to get a specific document/residency
+// function to get a specific property
 export const getProperty = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10); // Include radix to avoid potential bugs
 
   try {
     const property = await prisma.property.findUnique({
-      where: { id },
+      where: { id: id },
     });
-    res.send(property);
+
+    if (!property) {
+      return res.status(404).json({ message: `Property with ID ${id} not found` });
+    }
+
+    res.status(200).json(property);
   } catch (err) {
-    throw new Error(err.message);
+    console.error("Error fetching property:", err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 
 
 // function to get property by city
@@ -72,7 +79,7 @@ export const getPropertyByCity = asyncHandler(async (req, res) => {
 
   try {
     const property = await prisma.property.findMany({
-      where: { city },
+      where: { city : city },
     });
     res.send(property);
   } catch (err) {

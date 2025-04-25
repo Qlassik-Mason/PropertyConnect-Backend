@@ -7,7 +7,7 @@ import { prisma } from "../config/prismaConfig.js";
 export const createUser = asyncHandler(async (req, res) => {
   
 
-  const { name, email, image, buyProperty} = req.body.data;
+  const { name, email, image, buyProperty, date} = req.body.data;
   console.log(req.body.data);
   try {
     const user = await prisma.user.create({
@@ -16,6 +16,7 @@ export const createUser = asyncHandler(async (req, res) => {
         email,
         image,
         buyProperty,
+        date
 
       },
     });
@@ -41,11 +42,11 @@ export const createUser = asyncHandler(async (req, res) => {
 
 // function to buy a property
 export const buyProperty = asyncHandler(async (req, res) => {
-  const { email, date } = req.body;
-  const { id } = req.params;
+  const { email} = req.body.data;
+  const { id } = req.params.id;
 
   try {
-    const alreadybought = await prisma.user.findUnique({
+    const alreadybought = await prisma.user.findFirst({
       where: { email },
       select: { buyProperty: true },
     });
